@@ -4,23 +4,39 @@ import java.math.RoundingMode;
 public class Complex {
     double real;
     double imag;
-
+    
     public Complex(double rl, double im) {
         real = rl;
         imag = im;
     }
 
+    /**
+     * Add a complex to this
+     * @param o the other complex number
+     * @return the sum of the two complex numbers
+     */
     public Complex add(Complex o) {
         return new Complex(this.real + o.real, this.imag + o.imag);
     }
 
+    /**
+     * Multiply this by another complex number
+     * @param o the other complex number
+     * @return the product of the two complex numbers
+     */
     public Complex mult(Complex o) {
-        double _real = o.real * this.real + o.imag * this.imag;
+        double _real = o.real * this.real - o.imag * this.imag;
         double _imag = o.imag * this.real + this.imag * o.real;
 
         return new Complex(_real, _imag);
     }
 
+    /**
+     * Get the kth out of n root of unity
+     * @param k the kth root
+     * @param n the number of roots
+     * @return the kth root of unity
+     */
     public static Complex rootOfUnity(double k, double n) {
         double real = Math.cos(2*Math.PI*(k/n));
         double imag = Math.sin(2*Math.PI*(k/n));
@@ -28,6 +44,11 @@ public class Complex {
         return new Complex(round(real, 11), round(imag, 11));
     }
 
+    /**
+     * Get all k roots of unity for n roots
+     * @param n the number of roots
+     * @return an array of all k roots of unity
+     */
     public static Complex[] rootsOfUnity(int n) {
         Complex[] out = new Complex[n];
         for(int k = 0; k < n; k++) {
@@ -55,7 +76,7 @@ public class Complex {
         return real + " + " + imag + "i";
     }
     
-
+    // rounding helper method
     private static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
     
