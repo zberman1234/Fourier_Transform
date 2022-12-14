@@ -3,13 +3,36 @@ public class Polynomial {
 
     public Polynomial(Complex[] _coeffs) {
         int size = _coeffs.length;
+        coeffs = new Complex[size];
         for(int i = 0; i < size; i++) {
             coeffs[i] = _coeffs[i];
         }
     }
 
-    // @ return result, remainder
-    public double[] synth_div(double[] num, double[] den) {
+    // coeffs get method
+    public Complex[] getCoeffs() {
+        return coeffs;
+    }
+
+    // multiply this polynomial by another
+    public Polynomial mult(Polynomial other) {
+        int size = coeffs.length + other.coeffs.length - 1;
+        Complex[] result = new Complex[size];
+        for(int i = 0; i < size; i++) {
+            result[i] = new Complex(0,0);
+        }
+
+        for(int i = 0; i < coeffs.length; i++) {
+            for(int j = 0; j < other.coeffs.length; j++) {
+                result[i+j] = result[i+j].add(coeffs[i].mult(other.coeffs[j]));
+                // System.out.println("coeffs[i].mult(other.coeffs[j])=" + coeffs[i].mult(other.coeffs[j]) + " i=" + i + " j=" + j + " result[i+j]=" + result[i+j] + " coeffs[i]=" + coeffs[i] + " other.coeffs[j]=" + other.coeffs[j] + "");
+            }
+        }
+
+        return new Polynomial(result);
+    }
+
+    public static double[] synth_div(double[] num, double[] den) {
         double[] retval = num.clone();
         double norm = den[0];
         for(int i = 0; i< num.length - den.length; i++) {
@@ -28,10 +51,24 @@ public class Polynomial {
     public Complex evaluate(Complex x) {
         Complex out = new Complex(0,0);
         for(int i = 0; i < coeffs.length; i++) {
-            out.add(coeffs[i].mult(x.exp(i)));
+            out = out.add(coeffs[i].mult(x.exp(i)));
+        }
+        return out;
+    }
+
+    // evaluate if this polynomial is equal to another
+    public boolean equals(Polynomial other) {
+        if(coeffs.length != other.coeffs.length) {
+            return false;
         }
 
-        return out;
+        for(int i = 0; i < coeffs.length; i++) {
+            if(coeffs[i].real != other.coeffs[i].real || coeffs[i].imag != other.coeffs[i].imag) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public Complex[] evaluateAll(Complex[] v) {
@@ -62,7 +99,15 @@ public class Polynomial {
         return odds.evaluate(x);
     }
 
-    public Complex[] FourierTransform() {
-        return this.evaluateAll(Complex.rootsOfUnity(coeffs.length));
+    // public Complex[] FourierTransform() {
+    //     return this.evaluateAll(Complex.rootsOfUnity(coeffs.length));
+    // }
+
+    public String toString() {
+        String out = "";
+        for(int i = 0; i < coeffs.length; i++) {
+            out += "("+coeffs[i]+")" + "x^" + i + " + ";
+        }
+        return out;
     }
 }
