@@ -2,7 +2,7 @@ public class Polynomial {
     private Complex[] coeffs;
 
     /**
-     * Construct a Polynomial object with the given coefficients.
+     * Create a new polynomial with the given coefficients.
      *
      * @param _coeffs The coefficients of the polynomial.
      */
@@ -13,6 +13,8 @@ public class Polynomial {
             coeffs[i] = _coeffs[i];
         }
     }
+
+    
 
     /**
      * Get the coefficients of this polynomial.
@@ -123,10 +125,11 @@ public class Polynomial {
     public Complex evaluateEven(Complex x) {
         int terms = coeffs.length/2;
         Complex[] EvenCoeffs = new Complex[terms];
-        for(int i = 0; i < terms; i+=2) {
-            EvenCoeffs[i/2] = coeffs[i];
+        for(int i = 0; i < terms; i++) {
+            EvenCoeffs[i] = coeffs[i*2];
         }
         Polynomial evens = new Polynomial(EvenCoeffs);
+        System.out.println("evens=" + evens);
         return evens.evaluate(x);
     }
 
@@ -147,9 +150,10 @@ public class Polynomial {
         return odds.evaluate(x);
     }
 
-    // public Complex[] FourierTransform() {
-    //     return this.evaluateAll(Complex.rootsOfUnity(coeffs.length));
-    // }
+    public Complex[] FourierTransform() {
+        return this.evaluateAll(Complex.rootsOfUnity(coeffs.length));
+    }
+    
 
     public String toString() {
         String out = "";

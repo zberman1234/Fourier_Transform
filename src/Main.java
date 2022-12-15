@@ -19,6 +19,7 @@ public class Main {
         testMult();
         testSynthDiv();
         testEvaluate();
+        testEvaluateEven();
 
         p("Passes: " + pass + " Fails: " + fail);
 
@@ -86,14 +87,24 @@ public class Main {
         double[] expected1 = {1, 1, 0, 3};
         double[] result1 = Polynomial.synth_div(num1, den1);
         if(Arrays.equals(expected1, result1)) pass++;
-        else fail++;
+        else {
+            fail++;
+            p("Failed synth_div test 1");
+            p("Expected: " + Arrays.toString(expected1));
+            p("Result: " + Arrays.toString(result1) + "\n\n");
+        }
     
         double[] num2 = {5, 10, 15, 20, 25};
         double[] den2 = {2, 1, 0.5};
         double[] expected2 = {2.5, 5, 7.5, 10, 12.5};
         double[] result2 = Polynomial.synth_div(num2, den2);
         if(Arrays.equals(expected2, result2)) pass++;
-        else fail++;
+        else {
+            fail++;
+            p("Failed synth_div test 2");
+            p("Expected: " + Arrays.toString(expected2));
+            p("Result: " + Arrays.toString(result2) + "\n\n");
+        }
     }
 
     public static void testEvaluate() {
@@ -114,6 +125,45 @@ public class Main {
         else {
             fail++;
             p("Expected: " + new Complex(3, 8));
+            p("Result: " + result);
+        }
+    }
+
+    public static void testEvaluateEven() {
+        // Define the coefficients of the polynomial
+        Complex[] coeffs = {new Complex(10, 0), new Complex(1, 0), new Complex(2, 0), new Complex(4, 0), new Complex(3, 0), new Complex(1, 0)};
+    
+        // Create a new instance of the polynomial
+        Polynomial poly = new Polynomial(coeffs);
+    
+        // Evaluate the polynomial evens and store the result
+        Complex result = poly.evaluateEven(new Complex(3, 0));
+    
+        // Check if the result is as expected
+        if(result.real == 43 && result.imag == 0) pass++;
+        else {
+            fail++;
+            p("Expected: " + new Complex(43, 0));
+            p("Result: " + result);
+        }
+    }
+
+    public static void testEvaluateOdd() {
+        // Define the coefficients of the polynomial
+        Complex[] coeffs = {new Complex(10, 0), new Complex(1, 0), new Complex(2, 0), new Complex(4, 0), new Complex(3, 0), new Complex(1, 0)};
+    
+        // Create a new instance of the polynomial
+        Polynomial poly = new Polynomial(coeffs);
+    
+        // Evaluate the polynomial odds and store the result
+        Complex result = poly.evaluateOdd(new Complex(3, 0));
+    
+        // Check if the result is as expected
+        if(result.real == 10 && result.imag == 0) pass++;
+        else {
+            fail++;
+            p("Failed evaluateOdd test 1");
+            p("Expected: " + new Complex(10, 0));
             p("Result: " + result);
         }
     }
