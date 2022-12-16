@@ -71,7 +71,7 @@ public class Main {
         expectedCoeffs = new Complex[] {new Complex(0,0), new Complex(3,11), new Complex(1,8), new Complex(7,19), new Complex(3,14)};
         expected = new Polynomial(expectedCoeffs);
 
-        // assert that the result matches the expected result
+        // check that the result matches the expected result
         if(expected.equals(result)) pass++;
         else {
             fail++;
